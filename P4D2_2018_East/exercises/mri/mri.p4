@@ -248,7 +248,9 @@ control MyEgress(inout headers hdr,
         * - If hdr.mri is valid:
         *   - Apply table swtrace
         */
-	    swtrace.apply();
+      if (hdr.mri.isValid()){
+	        swtrace.apply();
+      }
     }
 }
 
