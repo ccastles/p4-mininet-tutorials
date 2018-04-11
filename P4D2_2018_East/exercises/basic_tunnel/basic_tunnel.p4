@@ -70,7 +70,7 @@ parser MyParser(packet_in packet,
         packet.extract(hdr.ethernet);
         transition select(hdr.ethernet.etherType) {
             TYPE_IPV4 : parse_ipv4;
-            0x1212 : parse_mytunnel; 
+            TYPE_MYTUNNEL : parse_mytunnel; 
             default : accept;
         }
     }
@@ -130,7 +130,7 @@ control MyIngress(inout headers hdr,
     }
 
     // TODO: declare a new action: myTunnel_forward(egressSpec_t port)
-    action my_tunnel_forward (egressSpec_t port){
+    action myTunnel_forward (egressSpec_t port){
         standard_metadata.egress_spec = port; 
     }
 
@@ -140,7 +140,7 @@ control MyIngress(inout headers hdr,
         hdr.myTunnel.dst_id : exact; 
       }
       actions = {
-        my_tunnel_forward;
+        myTunnel_forward;
         drop; 
       }
       size = 1024;
